@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Scripture from '../components/Scripture.astro';
+import WaveDivider from '../components/WaveDivider.astro';
+
+const outcomes = [
+  'People come to know Jesus',
+  'Lives transformed',
+  'Families strengthened',
+  'Believers grow spiritually',
+  'The Holy Spirit move',
+  'The broken restored',
+  'People receive prayer and encouragement',
+  'New disciples raised',
+  'The Gospel taken beyond the church',
+];
+
+const pillars = [
+  { name: 'Worship', text: 'To glorify Jesus Christ through worship and praise.' },
+  { name: 'Word', text: 'To faithfully teach and preach the Bible.' },
+  { name: 'Prayer', text: 'To build a church that depends on prayer.' },
+  { name: 'Holy Spirit', text: 'To welcome and follow the work of the Holy Spirit.' },
+  { name: 'Discipleship', text: 'To help believers grow from spiritual infancy into maturity.' },
+  { name: 'Pastoral Care', text: 'To encourage, guide and support individuals and families.' },
+];
+---
+
+<BaseLayout
+  title="Mission & Vision"
+  description="To make Jesus Christ known through the Word of God and the power of the Holy Spirit, and to see lives, families and communities transformed for the glory of God."
+>
+  <PageHero
+    eyebrow="Mission & Vision"
+    title="To build people for Christ"
+    lede="Our vision is not simply to build a church, but to build people for Christ — to win souls, make disciples, walk in the power of the Holy Spirit, and prepare the Bride of Christ for the coming of our Lord Jesus."
+  />
+
+  <!-- Vision -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <SectionHeading eyebrow="Our Vision" title="What we are believing God for" />
+
+    <blockquote class="mt-8 rounded-xl border-l-4 border-gold-500 bg-surface p-7 shadow-sm sm:p-9">
+      <p class="font-[family-name:var(--font-display)] text-xl leading-relaxed text-blue-900 sm:text-2xl">
+        To make Jesus Christ known through the Word of God and the power of the
+        Holy Spirit, and to see lives, families and communities transformed for
+        the glory of God.
+      </p>
+    </blockquote>
+
+    <p class="prose-measure mt-10 leading-relaxed text-ink">
+      Our vision is not only to gather people on Sunday. We want to see:
+    </p>
+
+    <ul class="mt-7 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+      {outcomes.map((o) => (
+        <li class="flex items-start gap-3 border-t border-gold-500/30 pt-4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="mt-1 shrink-0" aria-hidden="true">
+            <path d="M5 13l4 4L19 7" stroke="#A87400" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="leading-snug text-ink">{o}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="prose-measure">
+      <Scripture reference="Matthew 28:19–20">
+        Go and make disciples of all nations … teaching them to obey everything I
+        have commanded you.
+      </Scripture>
+      <p class="leading-relaxed text-ink">
+        Our vision is therefore not only to have a church, but to make disciples
+        who will make Jesus known to others.
+      </p>
+    </div>
+  </section>
+
+  <WaveDivider />
+
+  <!-- Mission -->
+  <section class="bg-blue-900 text-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+      <SectionHeading eyebrow="Our Mission" title="What we are here to do" tone="dark" />
+
+      <blockquote class="prose-measure mt-8">
+        <p class="font-[family-name:var(--font-display)] text-xl leading-relaxed text-gold-100 sm:text-2xl">
+          Our mission is to preach Jesus Christ, reach the lost, lead people to
+          salvation, baptise and disciple believers, build a strong prayer and
+          worship life, minister in the power and gifts of the Holy Spirit, care
+          for families, reach our community through outreach, and prepare
+          believers to live faithfully and be ready for the return of Jesus
+          Christ.
+        </p>
+      </blockquote>
+
+      <h3 class="mt-14 text-xs font-semibold uppercase tracking-[0.22em] text-gold-300">
+        Our mission will be carried out through
+      </h3>
+      <ul class="mt-8 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+        {pillars.map((p, i) => (
+          <li class="border-t border-gold-500/35 pt-5">
+            <span class="text-xs font-semibold tabular-nums text-gold-300">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h4 class="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-white">
+              {p.name}
+            </h4>
+            <p class="mt-2 text-sm leading-relaxed text-white/80">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Outreach -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <SectionHeading eyebrow="Our Heart for Outreach" title="To take the Gospel beyond the church" />
+    <div class="prose-measure mt-6">
+      <p class="leading-relaxed text-ink">
+        We want to reach people who may not know Jesus — our neighbours,
+        workplaces, families, friends and the wider community — with the love and
+        message of Jesus Christ.
+      </p>
+      <Scripture reference="Mark 16:15">
+        Go into all the world and preach the Gospel to all creation.
+      </Scripture>
+      <Scripture reference="Acts 1:8">
+        You will receive power when the Holy Spirit comes on you; and you will be
+        my witnesses …
+      </Scripture>
+      <p class="leading-relaxed text-ink">
+        Our mission is not only to receive from God. It is also to go and share
+        what God has given us.
+      </p>
+    </div>
+
+    <div class="mt-12 rounded-xl border border-gold-500/30 bg-surface p-7 shadow-sm">
+      <h3 class="font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+        Does this speak to your heart?
+      </h3>
+      <p class="prose-measure mt-3 leading-relaxed text-ink-muted">
+        If our vision and mission resonate with you, we would be blessed to have
+        you become part of what God is doing through this church.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/belonging"
+          class="inline-flex rounded-lg bg-gold-500 px-5 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-gold-300"
+        >
+          What belonging means here
+        </a>
+        <a
+          href="/visit"
+          class="inline-flex rounded-lg border border-blue-900/25 px-5 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-blue-900/5"
+        >
+          Plan your visit
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

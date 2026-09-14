@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { site } from '../data/site';
+import {
+  formatWallTimeRange,
+  weekdayName,
+  nextOccurrence,
+  formatDate,
+  relativeDayLabel,
+} from '../lib/datetime';
+
+const service = site.services[0];
+const next = nextOccurrence(service.weekday, service.start, service.end);
+const nextLabel = relativeDayLabel(next);
+
+// Only rendered when the church supplies the detail — see docs/CONTENT-MAP.md.
+// Sections with no content simply do not appear, rather than showing a stub.
+const practicalities = [
+  { label: 'Parking', value: null as string | null },
+  { label: 'Public transport', value: null as string | null },
+  { label: 'Accessibility', value: null as string | null },
+].filter((p) => p.value);
+---
+
+<BaseLayout
+  title="Visit Us"
+  description={`Join us for worship on ${weekdayName(service.weekday)}s, ${formatWallTimeRange(service.start, service.end)}, at ${site.address.full}. Everyone is welcome.`}
+>
+  <PageHero
+    eyebrow="Visit Us"
+    title="You are welcome here"
+    lede="Come as you are. Whether you have been walking with Jesus for years or are simply curious, there is a place for you on Sunday."
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <!-- Details -->
+      <div>
+        <SectionHeading eyebrow="Service Times" title="When we gather" />
+
+        <div class="mt-8 space-y-6">
+          {site.services.map((s) => (
+            <div class="rounded-xl border border-gold-500/35 bg-surface p-6 shadow-sm">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
+                {s.name}
+              </p>
+              <p class="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-blue-900">
+                {weekdayName(s.weekday)}s
+              </p>
+              <p class="mt-1 text-xl text-blue-700">
+                {formatWallTimeRange(s.start, s.end)}
+              </p>
+              {s.description && (
+                <p class="mt-3 text-sm leading-relaxed text-ink-muted">{s.description}</p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p class="mt-6 text-sm text-ink-muted">
+          Next service:{' '}
+          <time datetime={next.toISOString()} class="font-semibold text-blue-700">
+            {formatDate(next)}
+          </time>
+          {nextLabel && <span>{' '}({nextLabel})</span>}
+        </p>
+
+        <div class="mt-12">
+          <SectionHeading eyebrow="Where to find us" title="Our location" />
+          <address class="mt-7 not-italic text-lg leading-relaxed text-ink">
+            <span class="block font-semibold text-blue-900">{site.address.street}</span>
+            {site.address.suburb} {site.address.state} {site.address.postcode}
+            <span class="block text-base text-ink-muted">{site.address.country}</span>
+          </address>
+
+          <a
+            href={site.mapsLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-6 inline-flex items-center gap-2 rounded-lg bg-gold-500 px-6 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-gold-300"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Open in Google Maps
+          </a>
+
+          {practicalities.length > 0 && (
+            <dl class="mt-10 space-y-5">
+              {practicalities.map((p) => (
+                <div class="border-t border-gold-500/30 pt-4">
+                  <dt class="text-xs font-semibold uppercase tracking-[0.18em] text-gold-600">
+                    {p.label}
+                  </dt>
+                  <dd class="mt-1.5 leading-relaxed text-ink">{p.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+
+        {(site.contact.email || site.contact.phone) && (
+          <div class="mt-12">
+            <SectionHeading eyebrow="Get in touch" title="Questions before you come?" />
+            <ul class="mt-6 space-y-2">
+              {site.contact.email && (
+                <li>
+                  <a href={`mailto:${site.contact.email}`} class="font-semibold text-blue-700 underline underline-offset-4">
+                    {site.contact.email}
+                  </a>
+                </li>
+              )}
+              {site.contact.phone && (
+                <li>
+                  <a href={`tel:${site.contact.phone.replace(/\s/g, '')}`} class="font-semibold text-blue-700 underline underline-offset-4">
+                    {site.contact.phone}
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <!-- Map -->
+      <div>
+        <div class="overflow-hidden rounded-xl border border-gold-500/35 shadow-sm">
+          <iframe
+            src={site.mapsEmbed}
+            title={`Map showing ${site.name} at ${site.address.full}`}
+            width="100%"
+            height="520"
+            style="border:0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="block h-[420px] w-full sm:h-[520px]"
+          ></iframe>
+        </div>
+
+        <div class="mt-8 rounded-xl border border-gold-500/30 bg-surface p-7 shadow-sm">
+          <h2 class="font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+            What to expect
+          </h2>
+          <p class="mt-3 leading-relaxed text-ink">
+            Our Sunday service runs for about two hours and includes worship, the
+            preaching of the Word, and prayer. Come as you are — there is no
+            dress code, and no one will put you on the spot.
+          </p>
+          <p class="mt-3 leading-relaxed text-ink">
+            If it is your first time, simply let someone know when you arrive and
+            we would love to welcome you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

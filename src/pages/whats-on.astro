@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ServiceTimesCard from '../components/ServiceTimesCard.astro';
+import { site } from '../data/site';
+import { getUpcomingEvents, getAnnouncements } from '../lib/content';
+import { formatDateTime, formatWallTimeRange, weekdayName } from '../lib/datetime';
+
+const events = await getUpcomingEvents();
+const announcements = await getAnnouncements();
+const service = site.services[0];
+---
+
+<BaseLayout
+  title="What's On"
+  description={`Weekly schedule, upcoming programs and announcements at El Shaddai Living Waters Church, Whalan. Sunday worship ${formatWallTimeRange(service.start, service.end)}.`}
+>
+  <PageHero
+    eyebrow="What's On"
+    title="Our weekly schedule and programs"
+    lede="Everything happening at El Shaddai Living Waters Church."
+  />
+
+  <!-- Weekly rhythm -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <SectionHeading eyebrow="Every Week" title="Our regular gatherings" />
+
+    <div class="mt-10 overflow-x-auto">
+      <table class="w-full min-w-[34rem] border-collapse text-left">
+        <caption class="sr-only">Regular weekly services</caption>
+        <thead>
+          <tr class="border-b-2 border-gold-500/50">
+            <th scope="col" class="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Day</th>
+            <th scope="col" class="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Time</th>
+            <th scope="col" class="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Gathering</th>
+            <th scope="col" class="py-3 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Where</th>
+          </tr>
+        </thead>
+        <tbody>
+          {site.services.map((s) => (
+            <tr class="border-b border-gold-500/20">
+              <td class="py-5 pr-6 font-semibold text-blue-900">{weekdayName(s.weekday)}</td>
+              <td class="py-5 pr-6 whitespace-nowrap text-blue-700">
+                {formatWallTimeRange(s.start, s.end)}
+              </td>
+              <td class="py-5 pr-6 text-ink">
+                {s.name}
+                {s.description && (
+                  <span class="mt-1 block text-sm text-ink-muted">{s.description}</span>
+                )}
+              </td>
+              <td class="py-5 text-sm text-ink-muted">{s.venue}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-6 text-sm text-ink-muted">
+      All times are Sydney local time ({site.timezone}), and adjust automatically
+      for daylight saving.
+    </p>
+  </section>
+
+  <!-- Announcements -->
+  {announcements.length > 0 && (
+    <section class="border-y border-gold-500/25 bg-surface">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <SectionHeading eyebrow="Notices" title="Announcements" />
+        <ul class="mt-8 space-y-5">
+          {announcements.map((a) => (
+            <li
+              class:list={[
+                'rounded-xl border p-6',
+                a.priority === 'high'
+                  ? 'border-gold-500/60 bg-gold-100/40'
+                  : 'border-gold-500/25 bg-ground',
+              ]}
+            >
+              <h3 class="font-[family-name:var(--font-display)] text-lg font-semibold text-blue-900">
+                {a.title}
+              </h3>
+              <p class="mt-2 leading-relaxed text-ink">{a.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- Events -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <SectionHeading eyebrow="Programs & Events" title="Coming up" />
+
+    {events.length > 0 ? (
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {events.map((e) => (
+          <li class="flex flex-col rounded-xl border border-gold-500/30 bg-surface p-6 shadow-sm">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gold-600">
+              {e.category}
+            </p>
+            <h3 class="mt-3 font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+              {e.title}
+            </h3>
+            <p class="mt-2 text-sm font-medium text-blue-700">
+              <time datetime={e.startDateTime}>{formatDateTime(e.startDateTime)}</time>
+            </p>
+            {e.venue && <p class="mt-1 text-sm text-ink-muted">{e.venue}</p>}
+            <p class="mt-3 grow text-sm leading-relaxed text-ink">{e.description}</p>
+            {e.registrationLink && (
+              <a
+                href={e.registrationLink}
+                class="mt-5 inline-flex text-sm font-semibold text-blue-700 underline underline-offset-4"
+              >
+                More details
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="mt-10 rounded-xl border border-dashed border-gold-500/45 bg-surface p-10 text-center">
+        <p class="font-[family-name:var(--font-display)] text-xl text-blue-900">
+          No special programs scheduled at the moment
+        </p>
+        <p class="prose-measure mx-auto mt-3 leading-relaxed text-ink-muted">
+          Our regular Sunday service continues every week. Upcoming conventions,
+          fellowship evenings and outreach programs will appear here as they are
+          announced.
+        </p>
+      </div>
+    )}
+  </section>
+
+  <section class="border-t border-gold-500/25 bg-surface">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-center">
+      <div>
+        <SectionHeading eyebrow="Join Us" title="Everyone is welcome" />
+        <p class="prose-measure mt-6 leading-relaxed text-ink">
+          You do not need to know anyone, dress a certain way, or understand
+          everything. Come as you are.
+        </p>
+      </div>
+      <ServiceTimesCard variant="panel" />
+    </div>
+  </section>
+</BaseLayout>

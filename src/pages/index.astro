@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceTimesCard from '../components/ServiceTimesCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Scripture from '../components/Scripture.astro';
+import WaveDivider from '../components/WaveDivider.astro';
+import { site } from '../data/site';
+
+const pillars = [
+  { name: 'Worship', text: 'To glorify Jesus Christ through worship and praise.' },
+  { name: 'Word', text: 'To faithfully teach and preach the Bible.' },
+  { name: 'Prayer', text: 'To build a church that depends on prayer.' },
+  { name: 'Holy Spirit', text: 'To welcome and follow the work of the Holy Spirit.' },
+  { name: 'Discipleship', text: 'To help believers grow from spiritual infancy into maturity.' },
+  { name: 'Pastoral Care', text: 'To encourage, guide and support individuals and families.' },
+];
+---
+
+<BaseLayout
+  title={`${site.name} — Whalan, Sydney`}
+  bareTitle
+  description={site.description}
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-blue-900 text-white">
+    <div
+      class="pointer-events-none absolute inset-0 opacity-[0.16]"
+      style="background:radial-gradient(70% 55% at 78% 18%, #6090C0 0%, transparent 62%), radial-gradient(50% 45% at 12% 88%, #C8921F 0%, transparent 60%)"
+      aria-hidden="true"
+    >
+    </div>
+
+    <!--
+      Mobile source order is deliberate: masthead, then service times, then the
+      welcome prose. The single most common reason someone opens a church site on
+      a phone is to find out when the service is, so the times card must not sit
+      below the fold. On large screens the grid placement below restores the
+      conventional two-column layout with the prose under the heading.
+    -->
+    <div
+      class="relative mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:grid-rows-[auto_auto] lg:gap-x-12 lg:gap-y-6 lg:py-24"
+    >
+      <div class="lg:col-start-1 lg:row-start-1 lg:self-end">
+        <img
+          src="/logo-256.webp"
+          alt={`${site.name} emblem`}
+          width="120"
+          height="120"
+          class="h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28"
+          fetchpriority="high"
+        />
+        <p class="mt-6 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-gold-300 sm:text-xs sm:tracking-[0.24em]">
+          {site.tagline}
+        </p>
+        <h1 class="mt-3 text-[2rem] font-semibold leading-[1.12] sm:text-4xl md:text-5xl lg:text-[3.4rem]">
+          Welcome to El&nbsp;Shaddai Living&nbsp;Waters Church
+        </h1>
+      </div>
+
+      <div class="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
+        <ServiceTimesCard variant="hero" />
+      </div>
+
+      <div class="lg:col-start-1 lg:row-start-2 lg:self-start">
+        <p class="prose-measure text-lg leading-relaxed text-white/85">
+          We are a church family where people can come as they are, encounter
+          Jesus, grow in His Word, experience the presence and power of the Holy
+          Spirit, and become a blessing to others.
+        </p>
+        <p class="mt-5 text-base leading-relaxed text-gold-100">
+          May the living waters of the Holy Spirit bring hope, healing,
+          restoration and new life to you and your family.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our name -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <SectionHeading eyebrow="Our Name" title="Who we believe God is" />
+    <div class="mt-10 grid gap-10 md:grid-cols-2 md:gap-14">
+      <div>
+        <h3 class="font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+          El Shaddai
+        </h3>
+        <p class="prose-measure mt-3 leading-relaxed text-ink">
+          El Shaddai means <strong>God Almighty</strong>. God is our source, our
+          strength, our provider and our refuge. We chose this name because we
+          want to remember that this church belongs to God, and everything we do
+          must depend on Him.
+        </p>
+        <Scripture reference="Genesis 17:1">
+          I am God Almighty; walk before me faithfully.
+        </Scripture>
+      </div>
+      <div>
+        <h3 class="font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+          Living Waters
+        </h3>
+        <p class="prose-measure mt-3 leading-relaxed text-ink">
+          Living Waters represents the life-giving work of the Holy Spirit. Our
+          desire is to see those living waters flow into families, our community
+          and beyond.
+        </p>
+        <Scripture reference="John 7:38">
+          Whoever believes in me … rivers of living water will flow from within
+          them.
+        </Scripture>
+      </div>
+    </div>
+    <p class="mt-4">
+      <a
+        href="/about"
+        class="font-semibold text-blue-700 underline underline-offset-4 hover:text-blue-500"
+      >
+        Read more about our church
+      </a>
+    </p>
+  </section>
+
+  <WaveDivider />
+
+  <!-- Mission pillars: gold on navy, where the brand gold is legible -->
+  <section class="bg-blue-900 text-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+      <SectionHeading
+        eyebrow="Our Mission"
+        title="How we carry out what God has given us"
+        tone="dark"
+      />
+      <ul class="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+        {pillars.map((p, i) => (
+          <li class="border-t border-gold-500/35 pt-5">
+            <span class="text-xs font-semibold tabular-nums text-gold-300">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-white">
+              {p.name}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-white/80">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+
+      <Scripture reference="Mark 16:15" tone="dark">
+        Go into all the world and preach the Gospel to all creation.
+      </Scripture>
+
+      <a
+        href="/mission-vision"
+        class="mt-4 inline-flex rounded-lg bg-gold-500 px-6 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-gold-300"
+      >
+        Our mission &amp; vision in full
+      </a>
+    </div>
+  </section>
+
+  <!-- A place of -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <SectionHeading eyebrow="Our Desire" title="We want this to be a place of" align="center" />
+    <ul class="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-2.5">
+      {[
+        'Prayer', 'Worship', 'The Word of God', 'The Holy Spirit', 'Healing',
+        'Restoration', 'Renewal', 'Revival', 'Outreach',
+      ].map((w) => (
+        <li class="rounded-full border border-gold-500/45 bg-surface px-5 py-2.5 text-sm font-medium text-blue-900">
+          {w}
+        </li>
+      ))}
+    </ul>
+    <div class="mx-auto max-w-2xl">
+      <Scripture reference="Ezekiel 47:9">
+        Everything will live where the river flows.
+      </Scripture>
+      <p class="text-center text-base italic leading-relaxed text-ink-muted">
+        Our prayer: let the Living Waters flow through this church and bring life
+        to many people.
+      </p>
+    </div>
+  </section>
+
+  <!-- Visit -->
+  <section class="border-t border-gold-500/25 bg-surface">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+      <div>
+        <SectionHeading eyebrow="Visit Us" title="You are welcome here" />
+        <p class="prose-measure mt-6 leading-relaxed text-ink">
+          If you are not currently attending a church, or if you are prayerfully
+          looking for a church family where you can be part of a Christ-centred
+          and Spirit-filled vision, we warmly invite you to come and worship with
+          us.
+        </p>
+        <p class="prose-measure mt-4 leading-relaxed text-ink">
+          We are not looking to simply fill a church building. We want to build
+          people for Christ, reach souls, make disciples and serve our community.
+        </p>
+      </div>
+      <ServiceTimesCard variant="panel" showNext={false} />
+    </div>
+  </section>
+</BaseLayout>

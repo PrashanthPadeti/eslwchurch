@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Scripture from '../components/Scripture.astro';
+import { site } from '../data/site';
+
+const g = site.giving;
+const hasBankDetails = Boolean(g.bsb && g.accountNumber && g.accountName);
+const hasAnyDetails = hasBankDetails || Boolean(g.payId);
+---
+
+<BaseLayout
+  title="Give"
+  description="Support the ministry and mission of El Shaddai Living Waters Church, Whalan."
+>
+  <PageHero
+    eyebrow="Give"
+    title="Partnering in the work of the Gospel"
+    lede="Giving supports the ministry of this church — the preaching of the Word, the care of families, and outreach into our community."
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+      <div>
+        <SectionHeading eyebrow="How to Give" title="Ways to support the church" />
+
+        {hasAnyDetails ? (
+          <div class="mt-8 space-y-6">
+            {hasBankDetails && (
+              <div class="rounded-xl border border-gold-500/35 bg-surface p-7 shadow-sm">
+                <h3 class="font-[family-name:var(--font-display)] text-lg font-semibold text-blue-900">
+                  Direct bank transfer
+                </h3>
+                <dl class="mt-5 space-y-3 text-[0.95rem]">
+                  <div class="flex gap-4">
+                    <dt class="w-36 shrink-0 font-semibold text-ink-muted">Account name</dt>
+                    <dd class="font-medium text-ink">{g.accountName}</dd>
+                  </div>
+                  <div class="flex gap-4">
+                    <dt class="w-36 shrink-0 font-semibold text-ink-muted">BSB</dt>
+                    <dd class="font-mono font-medium text-ink">{g.bsb}</dd>
+                  </div>
+                  <div class="flex gap-4">
+                    <dt class="w-36 shrink-0 font-semibold text-ink-muted">Account number</dt>
+                    <dd class="font-mono font-medium text-ink">{g.accountNumber}</dd>
+                  </div>
+                </dl>
+              </div>
+            )}
+
+            {g.payId && (
+              <div class="rounded-xl border border-gold-500/35 bg-surface p-7 shadow-sm">
+                <h3 class="font-[family-name:var(--font-display)] text-lg font-semibold text-blue-900">
+                  PayID
+                </h3>
+                <p class="mt-3 font-mono text-lg font-medium text-blue-700">{g.payId}</p>
+                <p class="mt-2 text-sm text-ink-muted">
+                  Instant, and free for both you and the church.
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div class="mt-8 rounded-xl border border-dashed border-gold-500/45 bg-surface p-8">
+            <p class="font-[family-name:var(--font-display)] text-lg text-blue-900">
+              Giving details are being finalised
+            </p>
+            <p class="prose-measure mt-3 leading-relaxed text-ink-muted">
+              In the meantime, please speak with Pastor Daniel or one of the
+              leaders at church on a Sunday and they will be glad to help.
+            </p>
+          </div>
+        )}
+
+        {g.taxNote && (
+          <p class="prose-measure mt-8 rounded-lg bg-gold-100/50 p-5 text-sm leading-relaxed text-ink">
+            {g.taxNote}
+          </p>
+        )}
+
+        <p class="prose-measure mt-8 text-sm leading-relaxed text-ink-muted">
+          Giving is always voluntary. No one will be put under pressure, and no
+          one is ever asked to give in order to belong here.
+        </p>
+      </div>
+
+      <div>
+        <div class="rounded-xl border border-gold-500/30 bg-surface p-7 shadow-sm">
+          <h2 class="font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+            Why we give
+          </h2>
+          <p class="mt-3 leading-relaxed text-ink">
+            Our mission is not only to receive from God. It is also to go and
+            share what God has given us.
+          </p>
+          <Scripture reference="Acts 1:8">
+            You will receive power when the Holy Spirit comes on you; and you
+            will be my witnesses …
+          </Scripture>
+          <p class="leading-relaxed text-ink">
+            What is given here supports worship, the teaching of the Word,
+            pastoral care for families, and outreach beyond the church.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

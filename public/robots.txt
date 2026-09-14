@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eslwchurch.com/sitemap-index.xml

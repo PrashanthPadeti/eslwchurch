@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Scripture from '../components/Scripture.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="A Note from the Pastor"
+  description="A personal welcome from Pastor Daniel, Founder and Senior Pastor of El Shaddai Living Waters Church Sydney."
+>
+  <PageHero
+    eyebrow="A Note from the Pastor"
+    title="Thank you for taking the time to learn about our church"
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div class="prose-measure text-[1.09rem] leading-[1.75] text-ink">
+      <p>
+        Thank you for taking the time to learn more about El Shaddai Living
+        Waters Church, Sydney, Australia.
+      </p>
+      <p class="mt-5">
+        It is our prayer that this will be a place where you can know Jesus, grow
+        in His Word, experience the presence of the Holy Spirit, and find a
+        church family where you can serve and grow.
+      </p>
+      <p class="mt-5">
+        If you are not currently attending a church, or if you are prayerfully
+        looking for a church family where you can be part of a Christ-centred and
+        Spirit-filled vision, we warmly invite you to come and worship with us.
+      </p>
+      <p class="mt-5">
+        If our vision and mission speak to your heart, we would be blessed to
+        have you become part of what God is doing through El Shaddai Living
+        Waters Church Sydney.
+      </p>
+      <p class="mt-5">
+        We are not looking to simply fill a church building. We want to build
+        people for Christ, reach souls, make disciples, serve our community and
+        prepare one another for the coming of Jesus.
+      </p>
+      <p class="mt-5">
+        Thank you for visiting us and for taking the time to read about our
+        church. May the Lord guide you, bless you and your family, and lead you
+        into all that He has prepared for you.
+      </p>
+
+      <p class="mt-9 text-ink-muted">With prayers and every blessing,</p>
+
+      <div class="mt-3 flex items-center gap-4">
+        {site.pastor.photo ? (
+          <img
+            src={site.pastor.photo}
+            alt={site.pastor.name}
+            width="72"
+            height="72"
+            class="h-18 w-18 rounded-full object-cover"
+          />
+        ) : null}
+        <div>
+          <p class="font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+            {site.pastor.name}
+          </p>
+          <p class="text-sm text-ink-muted">{site.pastor.role}</p>
+          <p class="text-sm text-ink-muted">{site.name} Sydney</p>
+        </div>
+      </div>
+
+      <div class="mt-12 border-t border-gold-500/30 pt-8">
+        <Scripture reference="Numbers 6:24 (KJV)">
+          The Lord bless thee, and keep thee.
+        </Scripture>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-3">
+      <a
+        href="/visit"
+        class="inline-flex rounded-lg bg-gold-500 px-6 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-gold-300"
+      >
+        Plan your visit
+      </a>
+      <a
+        href="/mission-vision"
+        class="inline-flex rounded-lg border border-blue-900/25 px-6 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-blue-900/5"
+      >
+        Our mission &amp; vision
+      </a>
+    </div>
+  </section>
+</BaseLayout>

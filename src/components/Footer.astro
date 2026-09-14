@@ -1,0 +1,110 @@
+---
+import { site } from '../data/site';
+import { formatWallTimeRange, weekdayName } from '../lib/datetime';
+
+const year = new Date().getFullYear();
+const service = site.services[0];
+
+const columns = [
+  {
+    heading: 'About',
+    links: [
+      { href: '/about', label: 'Our Name & Story' },
+      { href: '/mission-vision', label: 'Mission & Vision' },
+      { href: '/beliefs', label: 'What We Believe' },
+      { href: '/leadership', label: 'Leadership' },
+    ],
+  },
+  {
+    heading: 'Church Life',
+    links: [
+      { href: '/whats-on', label: "What's On" },
+      { href: '/belonging', label: 'Belonging & Membership' },
+      { href: '/welcome', label: 'A Note from the Pastor' },
+      { href: '/give', label: 'Give' },
+    ],
+  },
+];
+---
+
+<footer class="mt-24 bg-blue-900 text-white">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <div class="flex items-center gap-3">
+          <img src="/logo-128.webp" alt="" width="64" height="64" class="h-16 w-16" loading="lazy" />
+          <div>
+            <p class="font-[family-name:var(--font-display)] text-lg font-semibold leading-tight">
+              {site.name}
+            </p>
+            <p class="mt-1 text-sm text-gold-300">{site.tagline}</p>
+          </div>
+        </div>
+
+        <address class="mt-6 not-italic text-sm leading-relaxed text-white/85">
+          {site.address.street}<br />
+          {site.address.suburb} {site.address.state} {site.address.postcode}
+          <br />
+          <a
+            href={site.mapsLink}
+            class="mt-2 inline-block text-gold-300 underline underline-offset-4 hover:text-gold-100"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get directions
+          </a>
+        </address>
+
+        <p class="mt-5 text-sm text-white/85">
+          <span class="font-semibold text-gold-100">{weekdayName(service.weekday)}s</span>
+          {' · '}
+          {formatWallTimeRange(service.start, service.end)}
+        </p>
+
+        {site.contact.email && (
+          <p class="mt-3 text-sm">
+            <a href={`mailto:${site.contact.email}`} class="text-gold-300 underline underline-offset-4">
+              {site.contact.email}
+            </a>
+          </p>
+        )}
+      </div>
+
+      {columns.map((col) => (
+        <nav aria-label={col.heading}>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-gold-300">
+            {col.heading}
+          </h2>
+          <ul class="mt-4 space-y-2.5">
+            {col.links.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class="text-sm text-white/85 no-underline hover:text-white hover:underline underline-offset-4"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    <div class="mt-12 border-t border-white/15 pt-7">
+      <p class="text-xs leading-relaxed text-white/60">
+        Scripture quotations are taken from the Holy Bible, New International
+        Version® (NIV®), copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.®
+        Used by permission. All rights reserved worldwide. The blessing of
+        Numbers 6:24 is quoted from the King James Version.
+      </p>
+      <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/60">
+        <p>© {year} {site.name}</p>
+        {site.abn && <p>ABN {site.abn}</p>}
+        <a href="/privacy" class="text-white/70 underline underline-offset-4 hover:text-white">
+          Privacy
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Scripture from '../components/Scripture.astro';
+import WaveDivider from '../components/WaveDivider.astro';
+
+const desires = [
+  'Prayer', 'Worship', 'The Word of God', 'The Holy Spirit', 'Healing',
+  'Restoration', 'Renewal', 'Revival', 'Outreach',
+];
+---
+
+<BaseLayout
+  title="About Us"
+  description="El Shaddai means God Almighty. Living Waters represents the life-giving work of the Holy Spirit. Read about the name and heart of our church in Whalan, Sydney."
+>
+  <PageHero
+    eyebrow="About Us"
+    title="Our name reflects who we believe God is"
+    lede="And what we desire to see in His Church."
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div class="prose-measure">
+      <p class="text-lg leading-relaxed text-ink">
+        Welcome to El Shaddai Living Waters Church Sydney. We are a church family
+        where people can come as they are, encounter Jesus, grow in His Word,
+        experience the presence and power of the Holy Spirit, and become a
+        blessing to others.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-12 md:grid-cols-2 md:gap-16">
+      <article>
+        <SectionHeading eyebrow="Our Name" title="El Shaddai" />
+        <p class="prose-measure mt-6 leading-relaxed text-ink">
+          El Shaddai means <strong>God Almighty</strong>.
+        </p>
+        <p class="prose-measure mt-4 leading-relaxed text-ink">
+          God is our source, our strength, our provider and our refuge.
+        </p>
+        <Scripture reference="Genesis 17:1">
+          I am God Almighty; walk before me faithfully.
+        </Scripture>
+        <p class="prose-measure leading-relaxed text-ink">
+          We chose El Shaddai because we want to remember that this church
+          belongs to God, and everything we do must depend on Him.
+        </p>
+      </article>
+
+      <article>
+        <SectionHeading eyebrow="Our Name" title="Living Waters" />
+        <p class="prose-measure mt-6 leading-relaxed text-ink">
+          Jesus said that rivers of living water will flow from within those who
+          believe in Him.
+        </p>
+        <Scripture reference="John 7:38">
+          Whoever believes in me … rivers of living water will flow from within
+          them.
+        </Scripture>
+        <p class="prose-measure leading-relaxed text-ink">
+          Living Waters represents the life-giving work of the Holy Spirit. Our
+          desire is to see those living waters flow into families, our community
+          and beyond.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <WaveDivider />
+
+  <section class="bg-blue-900 text-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+      <SectionHeading
+        eyebrow="Our Desire"
+        title="We desire this church to be a place of"
+        tone="dark"
+        align="center"
+      />
+      <ul class="mx-auto mt-12 grid max-w-4xl grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-3">
+        {desires.map((d) => (
+          <li class="flex items-center gap-3 border-b border-gold-500/30 pb-4">
+            <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-300"></span>
+            <span class="text-base font-medium text-white">{d}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mx-auto mt-12 max-w-2xl text-center">
+        <Scripture reference="Ezekiel 47:9" tone="dark">
+          Everything will live where the river flows.
+        </Scripture>
+        <p class="font-[family-name:var(--font-display)] text-lg italic leading-relaxed text-gold-100">
+          Our prayer: let the Living Waters flow through this church and bring
+          life to many people.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <div class="grid gap-6 sm:grid-cols-3">
+      {[
+        { href: '/mission-vision', title: 'Mission & Vision', text: 'What God has called this church to do, and how we carry it out.' },
+        { href: '/belonging', title: 'Belonging', text: 'What it means to become part of the vision and mission of the church.' },
+        { href: '/welcome', title: 'A Note from the Pastor', text: 'A personal welcome from Pastor Daniel.' },
+      ].map((c) => (
+        <a
+          href={c.href}
+          class="group rounded-xl border border-gold-500/30 bg-surface p-6 no-underline shadow-sm transition-colors hover:border-gold-500/70"
+        >
+          <h3 class="font-[family-name:var(--font-display)] text-lg font-semibold text-blue-900">
+            {c.title}
+          </h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-muted">{c.text}</p>
+          <span class="mt-4 inline-block text-sm font-semibold text-blue-700 group-hover:underline underline-offset-4">
+            Read more →
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

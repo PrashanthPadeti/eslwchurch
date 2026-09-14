@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+
+// Additional leaders are added here as the church supplies names, roles,
+// photos and short bios. See docs/CONTENT-CHECKLIST.md section C.
+const leaders = [
+  {
+    name: site.pastor.name,
+    role: site.pastor.role,
+    bio: site.pastor.bio,
+    photo: site.pastor.photo,
+  },
+];
+---
+
+<BaseLayout
+  title="Leadership"
+  description={`Meet the leadership of El Shaddai Living Waters Church, Whalan — led by ${site.pastor.name}, ${site.pastor.role}.`}
+>
+  <PageHero
+    eyebrow="Leadership"
+    title="Those who serve this church"
+    lede="Church is not a place where one person does everything — but God does call people to lead, teach and shepherd."
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {leaders.map((l) => (
+        <li class="rounded-xl border border-gold-500/30 bg-surface p-7 shadow-sm">
+          {l.photo ? (
+            <img
+              src={l.photo}
+              alt={l.name}
+              width="160"
+              height="160"
+              class="h-32 w-32 rounded-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div
+              class="flex h-32 w-32 items-center justify-center rounded-full bg-blue-900"
+              aria-hidden="true"
+            >
+              <span class="font-[family-name:var(--font-display)] text-3xl font-semibold text-gold-300">
+                {l.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}
+              </span>
+            </div>
+          )}
+          <h2 class="mt-6 font-[family-name:var(--font-display)] text-2xl font-semibold text-blue-900">
+            {l.name}
+          </h2>
+          <p class="mt-1 text-sm font-semibold uppercase tracking-[0.14em] text-gold-600">
+            {l.role}
+          </p>
+          {l.bio && <p class="mt-4 leading-relaxed text-ink">{l.bio}</p>}
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-14 rounded-xl border border-gold-500/30 bg-surface p-7 shadow-sm">
+      <h2 class="font-[family-name:var(--font-display)] text-xl font-semibold text-blue-900">
+        A word from Pastor Daniel
+      </h2>
+      <p class="prose-measure mt-3 leading-relaxed text-ink">
+        I am accountable to God first, and I am also accountable to the church to
+        faithfully serve, teach and shepherd according to the Word of God.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/welcome"
+          class="inline-flex rounded-lg bg-gold-500 px-5 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-gold-300"
+        >
+          Read his full welcome
+        </a>
+        <a
+          href="/belonging"
+          class="inline-flex rounded-lg border border-blue-900/25 px-5 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-blue-900/5"
+        >
+          Pastor and members
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

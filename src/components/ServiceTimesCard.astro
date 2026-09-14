@@ -1,0 +1,97 @@
+---
+import { site } from '../data/site';
+import {
+  formatWallTimeRange,
+  weekdayName,
+  nextOccurrence,
+  formatDate,
+  relativeDayLabel,
+} from '../lib/datetime';
+
+interface Props {
+  /** "hero" sits on the navy hero; "panel" sits on the cream ground */
+  variant?: 'hero' | 'panel';
+  showNext?: boolean;
+}
+const { variant = 'hero', showNext = true } = Astro.props;
+
+const dark = variant === 'hero';
+const service = site.services[0];
+// Resolved at build time; a daily scheduled rebuild keeps this honest.
+const next = nextOccurrence(service.weekday, service.start, service.end);
+const nextLabel = relativeDayLabel(next);
+---
+
+<div
+  class:list={[
+    'rounded-xl border p-6 sm:p-7',
+    dark
+      ? 'border-gold-500/40 bg-white/8 backdrop-blur-sm'
+      : 'border-gold-500/35 bg-surface shadow-sm',
+  ]}
+>
+  <p
+    class:list={[
+      'text-xs font-semibold uppercase tracking-[0.2em]',
+      dark ? 'text-gold-300' : 'text-gold-600',
+    ]}
+  >
+    Join us this Sunday
+  </p>
+
+  {site.services.map((s) => (
+    <div class="mt-4">
+      <p
+        class:list={[
+          'font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight sm:text-3xl',
+          dark ? 'text-white' : 'text-blue-900',
+        ]}
+      >
+        {weekdayName(s.weekday)}s, {formatWallTimeRange(s.start, s.end)}
+      </p>
+      <p class:list={['mt-1.5 text-sm', dark ? 'text-white/75' : 'text-ink-muted']}>
+        {s.name}
+      </p>
+    </div>
+  ))}
+
+  <div class:list={['mt-5 h-px', dark ? 'bg-white/20' : 'bg-gold-500/25']}></div>
+
+  <p class:list={['mt-5 text-sm leading-relaxed', dark ? 'text-white/85' : 'text-ink']}>
+    <span class="block font-semibold">{site.address.street}</span>
+    {site.address.suburb} {site.address.state} {site.address.postcode}
+  </p>
+
+  {showNext && (
+    <p class:list={['mt-3 text-sm', dark ? 'text-gold-100' : 'text-gold-600']}>
+      Next service: <time datetime={next.toISOString()}>{formatDate(next)}</time>
+      {nextLabel && <span>{' '}({nextLabel})</span>}
+    </p>
+  )}
+
+  <div class="mt-6 flex flex-wrap gap-3">
+    <a
+      href={site.mapsLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 rounded-lg bg-gold-500 px-5 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-gold-300"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="2"/>
+      </svg>
+      Get directions
+    </a>
+    <a
+      href="/visit"
+      class:list={[
+        'inline-flex items-center rounded-lg border px-5 py-3 text-sm font-semibold no-underline transition-colors',
+        dark
+          ? 'border-white/35 text-white hover:bg-white/10'
+          : 'border-blue-900/25 text-blue-900 hover:bg-blue-900/5',
+      ]}
+    >
+      Plan your visit
+    </a>
+  </div>
+</div>

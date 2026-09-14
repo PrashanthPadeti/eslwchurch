@@ -1,0 +1,31 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  tone?: 'light' | 'dark';
+  align?: 'left' | 'center';
+}
+const { eyebrow, title, tone = 'light', align = 'left' } = Astro.props;
+---
+
+<div class:list={[align === 'center' && 'text-center']}>
+  {eyebrow && (
+    <p
+      class:list={[
+        'text-xs font-semibold uppercase tracking-[0.22em]',
+        tone === 'dark' ? 'text-gold-300' : 'text-gold-600',
+      ]}
+    >
+      {eyebrow}
+    </p>
+  )}
+  <h2
+    class:list={[
+      'mt-3 text-2xl font-semibold sm:text-3xl',
+      tone === 'dark' ? 'text-white' : 'text-blue-900',
+    ]}
+  >
+    {title}
+  </h2>
+  <div class:list={['mt-5 h-px w-20 bg-gold-500', align === 'center' && 'mx-auto']}></div>
+</div>

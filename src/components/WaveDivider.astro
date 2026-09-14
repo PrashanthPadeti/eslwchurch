@@ -1,0 +1,18 @@
+---
+// Echoes the river in the emblem. Purely decorative.
+interface Props { flip?: boolean; class?: string }
+const { flip = false, class: className = '' } = Astro.props;
+---
+<div class:list={['overflow-hidden leading-[0]', className]} aria-hidden="true">
+  <svg
+    viewBox="0 0 1440 60"
+    preserveAspectRatio="none"
+    class:list={['h-10 w-full sm:h-14', flip && 'rotate-180']}
+    fill="none"
+  >
+    <path d="M0 34c120 0 120-18 240-18s120 18 240 18 120-18 240-18 120 18 240 18 120-18 240-18 120 18 240 18"
+      stroke="#C8921F" stroke-opacity="0.45" stroke-width="2" />
+    <path d="M0 48c120 0 120-18 240-18s120 18 240 18 120-18 240-18 120 18 240 18 120-18 240-18 120 18 240 18"
+      stroke="#6090C0" stroke-opacity="0.5" stroke-width="2" />
+  </svg>
+</div>

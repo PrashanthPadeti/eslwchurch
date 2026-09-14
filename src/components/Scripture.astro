@@ -1,0 +1,33 @@
+---
+interface Props {
+  /** e.g. "John 7:38" */
+  reference: string;
+  /** "light" on the cream ground, "dark" inside navy sections */
+  tone?: 'light' | 'dark';
+}
+const { reference, tone = 'light' } = Astro.props;
+---
+
+<figure
+  class:list={[
+    'my-8 border-l-3 pl-5 sm:pl-6',
+    tone === 'dark' ? 'border-gold-300' : 'border-gold-500',
+  ]}
+>
+  <blockquote
+    class:list={[
+      'font-[family-name:var(--font-display)] text-lg italic leading-relaxed sm:text-xl',
+      tone === 'dark' ? 'text-gold-100' : 'text-blue-700',
+    ]}
+  >
+    <slot />
+  </blockquote>
+  <figcaption
+    class:list={[
+      'mt-3 text-xs font-semibold uppercase tracking-[0.16em]',
+      tone === 'dark' ? 'text-gold-300' : 'text-gold-600',
+    ]}
+  >
+    {reference}
+  </figcaption>
+</figure>

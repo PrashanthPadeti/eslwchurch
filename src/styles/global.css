@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens — sampled from the church emblem. See docs/BRAND.md
+   Contrast rule: gold-500 FAILS on light grounds (2.61:1).
+   Gold is a dark-background colour, or a fill with navy text on it.
+   --------------------------------------------------------------- */
+@theme {
+  --color-blue-900: #041B54;
+  --color-blue-800: #072566;
+  --color-blue-700: #0A2E7A;
+  --color-blue-500: #1D4FA8;
+  --color-blue-300: #6090C0;
+
+  --color-gold-600: #A87400;
+  --color-gold-500: #C8921F;
+  --color-gold-300: #D8A830;
+  --color-gold-100: #F5E6C0;
+
+  --color-ground: #FAF8F4;
+  --color-surface: #FFFFFF;
+  --color-ink: #16202E;
+  --color-ink-muted: #5A6675;
+  --color-accent-red: #7A1F14;
+
+  --font-display: "Lora", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --text-base: 1.0625rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    line-height: 1.18;
+    letter-spacing: -0.011em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+
+  /* Visible, high-contrast focus for keyboard users */
+  :focus-visible {
+    outline: 3px solid var(--color-gold-500);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-gold-100);
+    color: var(--color-blue-900);
+  }
+}
+
+@layer components {
+  /* Measure cap for readable prose */
+  .prose-measure { max-width: 68ch; }
+
+  /* Thin gold rule echoing the emblem's ring */
+  .rule-gold {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold-500) 18%,
+      var(--color-gold-500) 82%,
+      transparent
+    );
+  }
+}
