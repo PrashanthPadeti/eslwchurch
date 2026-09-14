@@ -67,10 +67,15 @@ export const site = {
   },
 
   contact: {
-    // Interim address. Once the domain is live, set up Cloudflare Email Routing
-    // to forward info@eslwchurch.com here and change this one line — the
-    // footer, Visit page, privacy policy and structured data all follow.
-    email: 'p.noblebose@gmail.com' as string | null,
+    // Public enquiries address. This is the ONLY address that appears on the
+    // site — the administrator account used for the domain, hosting and repo is
+    // deliberately kept off the public pages.
+    //
+    // Next step: once Cloudflare Email Routing is configured, change this to
+    // info@eslwchurch.com and forward that to the mailbox below. Editing this
+    // one line updates the footer, the Visit page, the privacy policy and the
+    // search-engine structured data together.
+    email: 'eslwchurch@gmail.com' as string | null,
     // TODO: awaiting church — whether a phone number should be public
     phone: null as string | null,
   },
