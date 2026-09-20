@@ -45,6 +45,9 @@ const jsonLd = {
     '@type': 'Event',
     name: service.name,
     description: service.description,
+    ...(service.languages?.length
+      ? { inLanguage: service.languages.map((l) => l.bcp47) }
+      : {}),
     eventSchedule: {
       '@type': 'Schedule',
       byDay: `https://schema.org/${weekdayName(service.weekday)}`,

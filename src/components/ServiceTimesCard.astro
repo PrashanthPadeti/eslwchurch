@@ -1,5 +1,5 @@
 ---
-import { site } from '../data/site';
+import { site, languageLabel } from '../data/site';
 import {
   formatWallTimeRange,
   weekdayName,
@@ -52,6 +52,23 @@ const nextLabel = relativeDayLabel(next);
       <p class:list={['mt-1.5 text-sm', dark ? 'text-white/75' : 'text-ink-muted']}>
         {s.name}
       </p>
+      {languageLabel(s) && (
+        <p
+          class:list={[
+            'mt-2.5 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold',
+            dark
+              ? 'border-gold-500/50 text-gold-100'
+              : 'border-gold-500/45 text-gold-600',
+          ]}
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+            <path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          {languageLabel(s)} service
+        </p>
+      )}
     </div>
   ))}
 

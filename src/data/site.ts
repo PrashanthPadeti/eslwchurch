@@ -14,7 +14,18 @@ export type Service = {
   name: string;
   venue: string;
   description?: string;
+  /** Spoken languages, in the order they are given. Drives the display label
+   *  and the inLanguage field in the Church structured data. */
+  languages?: { label: string; bcp47: string }[];
 };
+
+/** "Telugu & English" — Australian style uses an ampersand in this position. */
+export function languageLabel(s: Service): string | null {
+  if (!s.languages?.length) return null;
+  const names = s.languages.map((l) => l.label);
+  if (names.length === 1) return names[0];
+  return names.slice(0, -1).join(', ') + ' & ' + names[names.length - 1];
+}
 
 export const site = {
   name: 'El Shaddai Living Waters Church',
@@ -53,8 +64,12 @@ export const site = {
       end: '12:00',
       name: 'Sunday Worship Service',
       venue: '244 Woodstock Avenue, Whalan',
+      languages: [
+        { label: 'Telugu', bcp47: 'te' },
+        { label: 'English', bcp47: 'en-AU' },
+      ],
       description:
-        'Worship, the Word of God, and prayer. Everyone is welcome — come as you are.',
+        'A multi-language service in Telugu and English. Worship, the Word of God, and prayer. Everyone is welcome — come as you are.',
     },
   ] satisfies Service[],
 

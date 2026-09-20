@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ServiceTimesCard from '../components/ServiceTimesCard.astro';
-import { site } from '../data/site';
+import { site, languageLabel } from '../data/site';
 import { getUpcomingEvents, getAnnouncements } from '../lib/content';
 import { formatDateTime, formatWallTimeRange, weekdayName } from '../lib/datetime';
 
@@ -34,6 +34,7 @@ const service = site.services[0];
             <th scope="col" class="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Day</th>
             <th scope="col" class="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Time</th>
             <th scope="col" class="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Gathering</th>
+            <th scope="col" class="py-3 pr-6 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Language</th>
             <th scope="col" class="py-3 text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Where</th>
           </tr>
         </thead>
@@ -49,6 +50,9 @@ const service = site.services[0];
                 {s.description && (
                   <span class="mt-1 block text-sm text-ink-muted">{s.description}</span>
                 )}
+              </td>
+              <td class="py-5 pr-6 text-sm whitespace-nowrap text-blue-700">
+                {languageLabel(s) ?? '—'}
               </td>
               <td class="py-5 text-sm text-ink-muted">{s.venue}</td>
             </tr>
