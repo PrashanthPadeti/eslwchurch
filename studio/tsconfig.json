@@ -1,0 +1,27 @@
+{
+  "//": [
+    "The studio needs its own tsconfig. Without one, TypeScript walks up to the",
+    "repository root and finds the Astro config, which extends",
+    "'astro/tsconfigs/strict'. That resolves locally only because the root",
+    "node_modules happens to contain Astro. On Cloudflare the admin site builds",
+    "with root directory 'studio', so only these dependencies are installed and",
+    "the extends fails with: File 'astro/tsconfigs/strict' not found.",
+    "Having this file here stops the lookup from ever leaving the folder."
+  ],
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

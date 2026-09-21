@@ -1,12 +1,31 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "include": [
-    ".astro/types.d.ts",
-    "**/*.ts",
-    "**/*.astro"
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "//": [
+    "These options are the contents of astro/tsconfigs/strict, inlined rather",
+    "than extended. The admin site (studio/) builds on Cloudflare with its own",
+    "dependencies only, and its bundler scans up to this file — so an",
+    "'extends: astro/...' here fails there with:",
+    "  File 'astro/tsconfigs/strict' not found.",
+    "Keeping this config self-contained means parsing it never requires a",
+    "package to be installed. Re-check against astro/tsconfigs/strict.json on",
+    "major Astro upgrades."
   ],
-  "exclude": [
-    "dist",
-    "studio"
-  ]
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "strict": true
+  },
+  "include": [".astro/types.d.ts", "**/*.ts", "**/*.astro"],
+  "exclude": ["dist", "studio"]
 }
