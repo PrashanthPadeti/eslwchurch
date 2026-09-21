@@ -3,7 +3,7 @@ import { defineCliConfig } from 'sanity/cli';
 /** Public identifier for the church's Sanity project. Not a credential —
  *  it is embedded in the published JavaScript of both the studio and the
  *  website, so it is safe in version control. */
-const PROJECT_ID = '11d81mar';
+const PROJECT_ID = '1ld81mar';
 
 export default defineCliConfig({
   api: {

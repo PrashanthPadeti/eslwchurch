@@ -104,7 +104,7 @@ export type WeeklyMessage = {
 // Defaulting here means the site reads from the CMS without any dashboard
 // configuration; an env var can still override it for a different dataset.
 const SANITY_PROJECT_ID =
-  import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? '11d81mar';
+  import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? '1ld81mar';
 const SANITY_DATASET = import.meta.env.PUBLIC_SANITY_DATASET ?? 'production';
 const SANITY_API_VERSION = '2024-10-01';
 

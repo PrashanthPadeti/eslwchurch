@@ -4,7 +4,7 @@ import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './schemas';
 
 /** See sanity.cli.ts — public identifier, safe in version control. */
-const PROJECT_ID = '11d81mar';
+const PROJECT_ID = '1ld81mar';
 
 /**
  * Sanity Studio — the admin area for El Shaddai Living Waters Church.
