@@ -111,14 +111,25 @@ const SANITY_API_VERSION = '2024-10-01';
 export const usingCms = Boolean(SANITY_PROJECT_ID);
 
 /**
- * Run a GROQ query against Sanity's CDN. Returns null on any failure so the
- * caller falls back to local data rather than failing the whole build — a
- * church site going stale is recoverable, a build that will not deploy is not.
+ * Run a GROQ query against Sanity. Returns null on any failure so the caller
+ * falls back to local data rather than failing the whole build — a church site
+ * going stale is recoverable, a build that will not deploy is not.
+ *
+ * Deliberately `api.sanity.io`, NOT `apicdn.sanity.io`. The CDN caches query
+ * responses, and these queries run at build time immediately after someone
+ * presses Publish — exactly when a cached copy is most likely to be the old
+ * one. Using the CDN here produced the worst possible symptom: content saved
+ * correctly in the CMS, the build reporting success, and the change simply not
+ * appearing on the site.
+ *
+ * The CDN exists to protect against high request volume. A build makes roughly
+ * twenty queries and runs a few times a week, so there is nothing to protect
+ * against, and correctness matters far more than the few milliseconds saved.
  */
 async function groq<T>(query: string): Promise<T | null> {
   if (!SANITY_PROJECT_ID) return null;
   const url =
-    `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}` +
+    `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}` +
     `/data/query/${SANITY_DATASET}?query=${encodeURIComponent(query)}`;
   try {
     const res = await fetch(url);
