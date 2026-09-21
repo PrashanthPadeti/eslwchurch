@@ -3,6 +3,9 @@ import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './schemas';
 
+/** See sanity.cli.ts — public identifier, safe in version control. */
+const PROJECT_ID = '11d81mar';
+
 /**
  * Sanity Studio — the admin area for El Shaddai Living Waters Church.
  *
@@ -19,7 +22,7 @@ export default defineConfig({
   name: 'eslwchurch',
   title: 'El Shaddai Living Waters Church',
 
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID!,
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || PROJECT_ID,
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
   plugins: [
