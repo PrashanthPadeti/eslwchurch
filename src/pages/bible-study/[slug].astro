@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { site } from '../../data/site';
+import { getMessages, type WeeklyMessage } from '../../lib/content';
+import { renderMessageBody, messageExcerpt } from '../../lib/portabletext';
+import { formatDate } from '../../lib/datetime';
+
+/**
+ * One page per weekly message, so a single study can be shared on its own —
+ * in a WhatsApp group, a bulletin, or a link from the pulpit — rather than
+ * only ever being the thing currently at the top of /bible-study.
+ */
+export async function getStaticPaths() {
+  const messages = await getMessages();
+  return messages.map((message, i) => ({
+    params: { slug: message.slug },
+    props: {
+      message,
+      newer: messages[i - 1] ?? null,
+      older: messages[i + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  message: WeeklyMessage;
+  newer: WeeklyMessage | null;
+  older: WeeklyMessage | null;
+}
+
+const { message, newer, older } = Astro.props;
+const bodyHtml = renderMessageBody(message.body);
+const description =
+  messageExcerpt(message.body) ||
+  message.summary ||
+  `${message.title} — a Bible study message from ${message.author ?? site.pastor.name}.`;
+---
+
+<BaseLayout title={message.title} description={description}>
+  <PageHero
+    eyebrow={message.series ?? 'Weekly Bible Study'}
+    title={message.title}
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <article class="prose-measure">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
+        <time datetime={message.publishDate}>{formatDate(message.publishDate)}</time>
+      </p>
+
+      {message.passage && (
+        <p class="mt-4 inline-flex items-center gap-2 rounded-full border border-gold-500/45 px-4 py-1.5 text-sm font-semibold text-gold-600">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5v-15ZM4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5A2.5 2.5 0 0 1 4 20.5Z"
+              stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          {message.passage}
+        </p>
+      )}
+
+      {message.summary && (
+        <p class="mt-6 text-lg leading-relaxed text-ink-muted">{message.summary}</p>
+      )}
+
+      {bodyHtml && <div class="mt-8 text-[1.06rem]" set:html={bodyHtml} />}
+
+      <p class="mt-10 border-t border-gold-500/30 pt-6 text-sm text-ink-muted">
+        {message.author ?? site.pastor.name} · {site.pastor.role}
+      </p>
+
+      {message.attachmentUrl && (
+        <a
+          href={message.attachmentUrl}
+          class="mt-6 inline-flex items-center gap-2 rounded-lg border border-blue-900/25 px-5 py-3 text-sm font-semibold text-blue-900 no-underline transition-colors hover:bg-blue-900/5"
+        >
+          Download study notes
+        </a>
+      )}
+    </article>
+
+    <nav class="mt-14 grid gap-4 border-t border-gold-500/30 pt-8 sm:grid-cols-2" aria-label="Other studies">
+      {older ? (
+        <a href={`/bible-study/${older.slug}`} class="group rounded-xl border border-gold-500/30 bg-surface p-5 no-underline">
+          <span class="text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Previous study</span>
+          <span class="mt-1.5 block font-medium text-blue-900 group-hover:underline underline-offset-4">{older.title}</span>
+        </a>
+      ) : <div></div>}
+      {newer ? (
+        <a href={`/bible-study/${newer.slug}`} class="group rounded-xl border border-gold-500/30 bg-surface p-5 text-right no-underline sm:text-right">
+          <span class="text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Next study</span>
+          <span class="mt-1.5 block font-medium text-blue-900 group-hover:underline underline-offset-4">{newer.title}</span>
+        </a>
+      ) : <div></div>}
+    </nav>
+
+    <p class="mt-10">
+      <a href="/bible-study" class="font-semibold text-blue-700 underline underline-offset-4">
+        ← All Bible study messages
+      </a>
+    </p>
+  </section>
+</BaseLayout>

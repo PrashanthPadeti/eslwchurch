@@ -109,24 +109,40 @@ The Sunday order of service.
 5. Tick **Holy Communion** if it applies
 6. Under **Order of service**, click **Add item** for each part of the morning.
    Drag the handles to reorder.
-7. Click **Publish**
+7. Under **Also on this week**, add anything else happening during the week —
+   prayer meetings, youth night, fellowship. Pick the day, add a time if there
+   is one, and say where. Leave it empty if there is nothing on.
+8. Click **Publish**
 
 **You can prepare next week in advance.** A programme dated for a future Sunday
 stays hidden until its week arrives, so it will not replace the current one.
 
-### Updating the Bible Study
+### Publishing the Weekly Bible Study
 
-1. Click **Bible Study** in the sidebar
-2. Click **+** for a new session
-3. Fill in the title, then click **Generate** next to Web address
-4. Set the date and start time — **enter Sydney time**; daylight saving is
-   handled for you
-5. Add the passage, who is leading, and what it covers
-6. Optionally attach study notes as a PDF, or an online meeting link
-7. Click **Publish**
+This is the study message you write and post each week. It is read on the
+website — it is not a meeting.
 
-Past studies move automatically into the archive at the bottom of the page. You
-never need to delete them.
+1. Click **Weekly Bible Study** in the sidebar
+2. Click **+** for a new one
+3. Enter the title, then click **Generate** next to Web address
+4. Set **Publish on**. Today's date is filled in for you. **Date it in the
+   future and it stays hidden until that day**, so you can write several weeks
+   ahead and let each publish itself.
+5. Add the Bible passage — it appears as a badge under the title
+6. Write a short summary. This shows in larger type above the message, and is
+   what people see when the link is shared in WhatsApp.
+7. Write the study in **The message**:
+   - **Normal** for ordinary paragraphs
+   - **Heading** for section titles
+   - **Quote** for scripture you want set apart
+   - **Bold** and *Italic* from the toolbar, plus bullet and numbered lists
+8. Optionally attach study notes as a PDF
+9. Click **Publish**
+
+**Each study gets its own web address** — `eslwchurch.com/bible-study/...` —
+so a single week's message can be shared on its own rather than only appearing
+at the top of the page. Older studies move into "Previous studies" by
+themselves.
 
 ### Adding an event or program
 

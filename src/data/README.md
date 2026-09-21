@@ -75,25 +75,38 @@ in advance without replacing this week's.
 
 `time` is wall-clock Sydney time and may be `null` for items with no fixed slot.
 
-## Bible study shape
+## Weekly Bible study message shape
+
+The Bible study is **written content the pastor publishes**, not a meeting.
+Each one gets its own page at `/bible-study/<slug>` so a single week can be
+shared on its own.
 
 ```json
 {
-  "slug": "romans-week-4",
-  "date": "2026-09-30T09:00:00.000Z",
-  "endDate": "2026-09-30T10:30:00.000Z",
-  "title": "Justified by Faith",
-  "passage": "Romans 5:1-11",
-  "leader": "Pastor Daniel",
-  "series": "Journey Through Romans",
-  "description": "What it means to have peace with God.",
-  "venue": "244 Woodstock Avenue, Whalan",
-  "onlineLink": null,
-  "notesUrl": null
+  "slug": "rivers-of-living-water",
+  "title": "Rivers of Living Water",
+  "publishDate": "2026-09-20",
+  "passage": "John 7:37-39",
+  "series": "The Work of the Spirit",
+  "author": "Pastor Daniel",
+  "summary": "What Jesus promised to those who come to Him thirsty.",
+  "body": [
+    { "_type": "block", "style": "normal",
+      "children": [{ "_type": "span", "text": "Paragraph text." }] },
+    { "_type": "block", "style": "h2",
+      "children": [{ "_type": "span", "text": "A section heading" }] },
+    { "_type": "block", "style": "blockquote",
+      "children": [{ "_type": "span", "text": "A verse set apart." }] }
+  ],
+  "attachmentUrl": null
 }
 ```
 
-`date` and `endDate` are **UTC instants**, not local wall-clock strings. Sydney
-is UTC+11 in daylight saving and UTC+10 outside it, so a 7:00 pm study on
-30 September 2026 is `2026-09-30T09:00:00.000Z`. The CMS handles this
-conversion; if hand-editing, check against `src/lib/datetime.ts`.
+`publishDate` is a plain date. A message dated in the future stays hidden until
+that day, so the pastor can write ahead.
+
+`body` is Sanity's Portable Text: an array of blocks rather than HTML, which
+means nothing pasted into the editor can break the page layout. Supported
+styles are `normal`, `h2`, `h3` and `blockquote`, with `strong` / `em` marks,
+bullet and numbered lists, and links. Rendering lives in
+`src/lib/portabletext.ts`.

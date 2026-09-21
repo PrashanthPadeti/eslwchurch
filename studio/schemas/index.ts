@@ -105,6 +105,66 @@ const weeklyProgram = defineType({
       ],
     }),
     defineField({
+      name: 'activities',
+      title: 'Also on this week',
+      type: 'array',
+      description:
+        'Anything else happening during the week — prayer meetings, youth night, fellowship. Leave empty if there is nothing on.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'activity',
+          fields: [
+            defineField({
+              name: 'weekday',
+              title: 'Day',
+              type: 'number',
+              options: {
+                list: [
+                  { title: 'Sunday', value: 0 },
+                  { title: 'Monday', value: 1 },
+                  { title: 'Tuesday', value: 2 },
+                  { title: 'Wednesday', value: 3 },
+                  { title: 'Thursday', value: 4 },
+                  { title: 'Friday', value: 5 },
+                  { title: 'Saturday', value: 6 },
+                ],
+                layout: 'dropdown',
+              },
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: 'time',
+              title: 'Time',
+              type: 'string',
+              description: 'Optional. 24-hour, like 19:00.',
+            }),
+            defineField({
+              name: 'activity',
+              title: 'What it is',
+              type: 'string',
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: 'venue',
+              title: 'Where',
+              type: 'string',
+              description: 'Leave blank to leave it unsaid.',
+            }),
+            defineField({ name: 'notes', title: 'Extra detail', type: 'text', rows: 2 }),
+          ],
+          preview: {
+            select: { title: 'activity', weekday: 'weekday', time: 'time' },
+            prepare: ({ title, weekday, time }) => {
+              const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+              const day = typeof weekday === 'number' ? days[weekday] : '';
+              return { title, subtitle: [day, time].filter(Boolean).join(' · ') };
+            },
+          },
+        }),
+      ],
+    }),
+    defineField({
       name: 'notes',
       title: 'Note for the congregation',
       type: 'text',
@@ -128,12 +188,13 @@ const weeklyProgram = defineType({
 
 const bibleStudy = defineType({
   name: 'bibleStudy',
-  title: 'Bible Study',
+  title: 'Weekly Bible Study',
   type: 'document',
+  description: 'The Bible study message published on the website each week.',
   fields: [
     defineField({
       name: 'title',
-      title: 'Study title',
+      title: 'Title of this week’s study',
       type: 'string',
       validation: (r) => r.required(),
     }),
@@ -142,23 +203,25 @@ const bibleStudy = defineType({
       title: 'Web address',
       type: 'slug',
       options: { source: 'title', maxLength: 80 },
-      description: 'Click Generate. This is only used behind the scenes.',
+      description:
+        'Click Generate. This becomes the link for this study, so it can be shared on its own.',
       validation: (r) => r.required(),
     }),
     defineField({
-      name: 'date',
-      title: 'Date and start time',
-      type: 'datetime',
-      options: { dateFormat: 'ddd D MMM YYYY', timeFormat: 'h:mm a', timeStep: 15 },
-      description: 'Enter the Sydney time. Daylight saving is handled automatically.',
+      name: 'publishDate',
+      title: 'Publish on',
+      type: 'date',
+      options: { dateFormat: 'ddd D MMM YYYY' },
+      description:
+        'Dated in the future? It stays hidden until that day, so you can write ahead.',
+      initialValue: () => new Date().toISOString().slice(0, 10),
       validation: (r) => r.required(),
     }),
     defineField({
-      name: 'endDate',
-      title: 'Finish time',
-      type: 'datetime',
-      options: { dateFormat: 'ddd D MMM YYYY', timeFormat: 'h:mm a', timeStep: 15 },
-      description: 'Optional. The study stays listed as upcoming until this passes.',
+      name: 'passage',
+      title: 'Bible passage',
+      type: 'string',
+      description: 'For example "Romans 5:1-11". Shown as a badge under the title.',
     }),
     defineField({
       name: 'series',
@@ -167,32 +230,60 @@ const bibleStudy = defineType({
       description: 'Optional. For example "Journey Through Romans".',
     }),
     defineField({
-      name: 'passage',
-      title: 'Bible passage',
+      name: 'author',
+      title: 'Written by',
       type: 'string',
-      description: 'For example "Romans 5:1-11".',
+      initialValue: 'Pastor Daniel',
     }),
-    defineField({ name: 'leader', title: 'Led by', type: 'string' }),
     defineField({
-      name: 'description',
-      title: 'What this study covers',
+      name: 'summary',
+      title: 'Short summary',
       type: 'text',
-      rows: 4,
+      rows: 3,
+      description:
+        'One or two sentences, shown in larger type above the message and used as the preview when the link is shared.',
     }),
     defineField({
-      name: 'venue',
-      title: 'Where',
-      type: 'string',
-      description: 'Leave blank to use the church address.',
+      name: 'body',
+      title: 'The message',
+      type: 'array',
+      description:
+        'Write the study here. Use Normal for paragraphs, Heading for section titles, and Quote for scripture you want set apart.',
+      of: [
+        defineArrayMember({
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'Heading', value: 'h2' },
+            { title: 'Sub-heading', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' },
+          ],
+          lists: [
+            { title: 'Bullets', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
+          ],
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+            ],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [
+                  { name: 'href', type: 'url', title: 'Address' },
+                ],
+              },
+            ],
+          },
+        }),
+      ],
+      validation: (r) => r.required(),
     }),
     defineField({
-      name: 'onlineLink',
-      title: 'Online meeting link',
-      type: 'url',
-      description: 'Optional. Zoom, Meet or similar. Adds a "Join online" button.',
-    }),
-    defineField({
-      name: 'notes',
+      name: 'attachment',
       title: 'Study notes (PDF)',
       type: 'file',
       description: 'Optional. Adds a download button.',
@@ -200,15 +291,13 @@ const bibleStudy = defineType({
     }),
   ],
   orderings: [
-    { name: 'dateDesc', title: 'Newest first', by: [{ field: 'date', direction: 'desc' }] },
+    { name: 'publishDesc', title: 'Newest first', by: [{ field: 'publishDate', direction: 'desc' }] },
   ],
   preview: {
-    select: { title: 'title', date: 'date', passage: 'passage' },
+    select: { title: 'title', date: 'publishDate', passage: 'passage' },
     prepare: ({ title, date, passage }) => ({
       title,
-      subtitle: [date ? new Date(date).toDateString() : null, passage]
-        .filter(Boolean)
-        .join(' · '),
+      subtitle: [date, passage].filter(Boolean).join(' · '),
     }),
   },
 });

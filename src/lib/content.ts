@@ -17,8 +17,9 @@
 import eventsData from '../data/events.json';
 import announcementsData from '../data/announcements.json';
 import weeklyProgramData from '../data/weekly-program.json';
-import bibleStudiesData from '../data/bible-studies.json';
+import messagesData from '../data/bible-studies.json';
 import { isUpcoming } from './datetime';
+import type { PortableTextBlock } from './portabletext';
 
 // ---------------------------------------------------------------- types
 
@@ -54,6 +55,17 @@ export type ProgramItem = {
   person?: string | null;
 };
 
+/** Something happening during the week, outside the Sunday service. */
+export type WeekActivity = {
+  /** 0 = Sunday … 6 = Saturday */
+  weekday: number;
+  /** Wall-clock "HH:MM" */
+  time?: string | null;
+  activity: string;
+  venue?: string | null;
+  notes?: string | null;
+};
+
 export type WeeklyProgram = {
   /** ISO date of the Sunday this programme covers. */
   weekOf: string;
@@ -64,22 +76,26 @@ export type WeeklyProgram = {
   worshipLeader?: string | null;
   communion?: boolean;
   items: ProgramItem[];
+  activities?: WeekActivity[];
   notes?: string | null;
 };
 
-export type BibleStudy = {
+/**
+ * The pastor's weekly Bible study message — written content published to the
+ * site each week, not a meeting. Modelled as a post with its own URL so a
+ * single week's message can be shared on its own.
+ */
+export type WeeklyMessage = {
   slug: string;
-  /** UTC ISO-8601 instant */
-  date: string;
-  endDate?: string | null;
   title: string;
+  /** ISO date the message is published. Future dates stay hidden. */
+  publishDate: string;
   passage?: string | null;
-  leader?: string | null;
   series?: string | null;
-  description?: string | null;
-  venue?: string | null;
-  onlineLink?: string | null;
-  notesUrl?: string | null;
+  author?: string | null;
+  summary?: string | null;
+  body?: PortableTextBlock[] | null;
+  attachmentUrl?: string | null;
 };
 
 // ---------------------------------------------------------------- source
@@ -177,7 +193,8 @@ export async function getCurrentProgram(): Promise<WeeklyProgram | null> {
     *[_type == "weeklyProgram"] | order(weekOf desc) [0...12] {
       weekOf, theme, sermonTitle, preacher, scriptureReading,
       worshipLeader, communion, notes,
-      items[]{ time, activity, person }
+      items[]{ time, activity, person },
+      activities[]{ weekday, time, activity, venue, notes }
     }`);
   const all = (fromCms ?? (weeklyProgramData as WeeklyProgram[]))
     .slice()
@@ -204,29 +221,34 @@ export async function getProgramArchive(limit = 6): Promise<WeeklyProgram[]> {
     .slice(0, limit);
 }
 
-// ------------------------------------------------------------ bible study
+// -------------------------------------------------- weekly bible study
 
-export async function getBibleStudies(): Promise<BibleStudy[]> {
-  const fromCms = await groq<BibleStudy[]>(`
-    *[_type == "bibleStudy"] | order(date asc) {
-      "slug": slug.current, date, endDate, title, passage, leader,
-      series, description, venue, onlineLink, "notesUrl": notes.asset->url
+/**
+ * Messages dated in the future stay hidden, so the pastor can write ahead and
+ * have each week publish itself.
+ */
+export async function getMessages(): Promise<WeeklyMessage[]> {
+  const fromCms = await groq<WeeklyMessage[]>(`
+    *[_type == "bibleStudy"] | order(publishDate desc) {
+      "slug": slug.current, title, publishDate, passage, series,
+      author, summary, body, "attachmentUrl": attachment.asset->url
     }`);
-  return (fromCms ?? (bibleStudiesData as BibleStudy[]))
-    .slice()
-    .sort((a, b) => a.date.localeCompare(b.date));
+  const today = new Date().toISOString().slice(0, 10);
+  return (fromCms ?? (messagesData as WeeklyMessage[]))
+    .filter((m) => m.publishDate <= today)
+    .sort((a, b) => b.publishDate.localeCompare(a.publishDate));
 }
 
-export async function getUpcomingBibleStudies(limit?: number): Promise<BibleStudy[]> {
-  const upcoming = (await getBibleStudies()).filter((s) =>
-    isUpcoming(s.endDate ?? s.date),
-  );
-  return typeof limit === 'number' ? upcoming.slice(0, limit) : upcoming;
+export async function getLatestMessage(): Promise<WeeklyMessage | null> {
+  return (await getMessages())[0] ?? null;
 }
 
-export async function getPastBibleStudies(limit = 8): Promise<BibleStudy[]> {
-  return (await getBibleStudies())
-    .filter((s) => !isUpcoming(s.endDate ?? s.date))
-    .reverse()
-    .slice(0, limit);
+export async function getMessageArchive(limit = 12): Promise<WeeklyMessage[]> {
+  return (await getMessages()).slice(1, limit + 1);
+}
+
+export async function getMessageBySlug(
+  slug: string,
+): Promise<WeeklyMessage | undefined> {
+  return (await getMessages()).find((m) => m.slug === slug);
 }
