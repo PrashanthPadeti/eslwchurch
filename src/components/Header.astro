@@ -1,10 +1,15 @@
 ---
 import { site } from '../data/site';
 
+// Eight items is the ceiling for a flat bar. The desktop breakpoint sits at
+// xl rather than lg so the row never crowds the wordmark at ~1100px; below
+// that everything collapses into the menu button.
 const nav = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/mission-vision', label: 'Mission & Vision' },
+  { href: '/weekly-program', label: 'Weekly Program' },
+  { href: '/bible-study', label: 'Bible Study' },
   { href: '/whats-on', label: "What's On" },
   { href: '/visit', label: 'Visit' },
   { href: '/give', label: 'Give' },
@@ -37,15 +42,15 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       </span>
     </a>
 
-    <nav class="ml-auto hidden lg:block" aria-label="Primary">
-      <ul class="flex items-center gap-1">
+    <nav class="ml-auto hidden xl:block" aria-label="Primary">
+      <ul class="flex items-center gap-0.5">
         {nav.map((item) => (
           <li>
             <a
               href={item.href}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
-                'rounded px-3 py-2 text-[0.95rem] font-medium no-underline transition-colors',
+                'rounded px-2.5 py-2 text-[0.9rem] font-medium whitespace-nowrap no-underline transition-colors',
                 isActive(item.href)
                   ? 'bg-blue-900 text-white'
                   : 'text-blue-900 hover:bg-blue-900/8',
@@ -61,7 +66,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <button
       id="navToggle"
       type="button"
-      class="ml-auto inline-flex h-11 w-11 items-center justify-center rounded border border-blue-900/20 text-blue-900 lg:hidden"
+      class="ml-auto inline-flex h-11 w-11 items-center justify-center rounded border border-blue-900/20 text-blue-900 xl:hidden"
       aria-expanded="false"
       aria-controls="mobileNav"
     >
@@ -72,7 +77,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     </button>
   </div>
 
-  <nav id="mobileNav" hidden class="border-t border-gold-500/25 lg:hidden" aria-label="Primary mobile">
+  <nav id="mobileNav" hidden class="border-t border-gold-500/25 xl:hidden" aria-label="Primary mobile">
     <ul class="mx-auto max-w-6xl px-4 py-2 sm:px-6">
       {nav.map((item) => (
         <li>

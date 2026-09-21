@@ -27,10 +27,12 @@ npm run dev      # http://localhost:4321
 
 - **[Astro 5](https://astro.build)** — static site generation, ships almost no JavaScript
 - **[Tailwind CSS 4](https://tailwindcss.com)** — CSS-first configuration via `@theme`
-- **Cloudflare Pages** — hosting (planned)
-- **Sanity** — headless CMS (planned; see `src/lib/content.ts`)
+- **Cloudflare Pages** — hosting, live at eslwchurch.pages.dev
+- **Sanity** — headless CMS in `studio/`, published separately to
+  eslwchurch.sanity.studio
 
-No database, no server, no admin panel on the public site.
+No database, no server, and no admin panel on the public site — the CMS is a
+separate application, so the public pages stay static with nothing to attack.
 
 ---
 
@@ -54,8 +56,13 @@ src/
     content.ts      Content access layer — the CMS swap point
   pages/            One file per route
   styles/global.css Design tokens and base styles
+studio/             Sanity Studio — the admin area, its own npm project
 test/               Timezone and DST tests
 ```
+
+The site and the studio are **separate npm projects**. Cloudflare only installs
+and builds the root; `studio/` is deployed by hand with `npx sanity deploy`
+whenever its schemas change, which is rare.
 
 ---
 
@@ -107,7 +114,7 @@ CMS is connected, only that one file changes.
 
 Built and verified:
 
-- 12 routes, all pages building clean
+- 14 routes, all pages building clean
 - 0 TypeScript errors, 0 warnings
 - 25/25 timezone tests passing
 - Homepage first load ~44 KB gzipped, against a 250 KB budget
@@ -128,3 +135,4 @@ statement of faith, and photographs.
 | `docs/CONTENT-MAP.md` | What the church supplied and where it is used |
 | `docs/CONTENT-CHECKLIST.md` | What is still needed, with specifications |
 | `docs/DEPLOYMENT.md` | Domain, hosting and go-live steps |
+| `docs/ADMIN-GUIDE.md` | **For church admins** — CMS setup and everyday editing |
