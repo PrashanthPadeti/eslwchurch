@@ -36,11 +36,11 @@ export default defineConfig({
                   .defaultOrdering([{ field: 'weekOf', direction: 'desc' }]),
               ),
             S.listItem()
-              .title('Bible Study')
+              .title('Living Word')
               .child(
-                S.documentTypeList('bibleStudy')
-                  .title('Bible Study')
-                  .defaultOrdering([{ field: 'date', direction: 'desc' }]),
+                S.documentTypeList('livingWord')
+                  .title('Living Word')
+                  .defaultOrdering([{ field: 'publishDate', direction: 'desc' }]),
               ),
             S.divider(),
             S.listItem()

@@ -184,17 +184,17 @@ const weeklyProgram = defineType({
   },
 });
 
-// ------------------------------------------------------------ bible study
+// ------------------------------------------------------------- living word
 
-const bibleStudy = defineType({
-  name: 'bibleStudy',
-  title: 'Weekly Bible Study',
+const livingWord = defineType({
+  name: 'livingWord',
+  title: 'Living Word',
   type: 'document',
-  description: 'The Bible study message published on the website each week.',
+  description: 'The message published on the website each week for the church to read.',
   fields: [
     defineField({
       name: 'title',
-      title: 'Title of this week’s study',
+      title: 'Title of this week’s message',
       type: 'string',
       validation: (r) => r.required(),
     }),
@@ -204,7 +204,7 @@ const bibleStudy = defineType({
       type: 'slug',
       options: { source: 'title', maxLength: 80 },
       description:
-        'Click Generate. This becomes the link for this study, so it can be shared on its own.',
+        'Click Generate. This becomes the link for this message, so it can be shared on its own.',
       validation: (r) => r.required(),
     }),
     defineField({
@@ -248,7 +248,7 @@ const bibleStudy = defineType({
       title: 'The message',
       type: 'array',
       description:
-        'Write the study here. Use Normal for paragraphs, Heading for section titles, and Quote for scripture you want set apart.',
+        'Write the message here. Use Normal for paragraphs, Heading for section titles, and Quote for scripture you want set apart.',
       of: [
         defineArrayMember({
           type: 'block',
@@ -284,7 +284,7 @@ const bibleStudy = defineType({
     }),
     defineField({
       name: 'attachment',
-      title: 'Study notes (PDF)',
+      title: 'Notes to download (PDF)',
       type: 'file',
       description: 'Optional. Adds a download button.',
       options: { accept: '.pdf' },
@@ -424,4 +424,4 @@ const announcement = defineType({
   },
 });
 
-export const schemaTypes = [weeklyProgram, bibleStudy, event, announcement];
+export const schemaTypes = [weeklyProgram, livingWord, event, announcement];

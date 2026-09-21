@@ -17,7 +17,7 @@
 import eventsData from '../data/events.json';
 import announcementsData from '../data/announcements.json';
 import weeklyProgramData from '../data/weekly-program.json';
-import messagesData from '../data/bible-studies.json';
+import messagesData from '../data/living-word.json';
 import { isUpcoming } from './datetime';
 import type { PortableTextBlock } from './portabletext';
 
@@ -81,9 +81,9 @@ export type WeeklyProgram = {
 };
 
 /**
- * The pastor's weekly Bible study message — written content published to the
- * site each week, not a meeting. Modelled as a post with its own URL so a
- * single week's message can be shared on its own.
+ * The Living Word — a message the pastor publishes each week for the church to
+ * read. Written content, not a meeting. Modelled as a post with its own URL so
+ * a single week can be shared on its own.
  */
 export type WeeklyMessage = {
   slug: string;
@@ -221,7 +221,7 @@ export async function getProgramArchive(limit = 6): Promise<WeeklyProgram[]> {
     .slice(0, limit);
 }
 
-// -------------------------------------------------- weekly bible study
+// ------------------------------------------------------------ living word
 
 /**
  * Messages dated in the future stay hidden, so the pastor can write ahead and
@@ -229,7 +229,7 @@ export async function getProgramArchive(limit = 6): Promise<WeeklyProgram[]> {
  */
 export async function getMessages(): Promise<WeeklyMessage[]> {
   const fromCms = await groq<WeeklyMessage[]>(`
-    *[_type == "bibleStudy"] | order(publishDate desc) {
+    *[_type == "livingWord"] | order(publishDate desc) {
       "slug": slug.current, title, publishDate, passage, series,
       author, summary, body, "attachmentUrl": attachment.asset->url
     }`);

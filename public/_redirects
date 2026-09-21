@@ -1,0 +1,4 @@
+# The weekly message page was briefly published at /bible-study before being
+# renamed. Anyone holding an old link lands in the right place.
+/bible-study      /living-word  301
+/bible-study/*    /living-word/:splat  301

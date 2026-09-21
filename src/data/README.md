@@ -75,11 +75,11 @@ in advance without replacing this week's.
 
 `time` is wall-clock Sydney time and may be `null` for items with no fixed slot.
 
-## Weekly Bible study message shape
+## Living Word message shape
 
-The Bible study is **written content the pastor publishes**, not a meeting.
-Each one gets its own page at `/bible-study/<slug>` so a single week can be
-shared on its own.
+The Living Word is **written content the pastor publishes each week**, not a
+meeting. Each one gets its own page at `/living-word/<slug>` so a single week
+can be shared on its own.
 
 ```json
 {

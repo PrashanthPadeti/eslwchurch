@@ -117,12 +117,12 @@ The Sunday order of service.
 **You can prepare next week in advance.** A programme dated for a future Sunday
 stays hidden until its week arrives, so it will not replace the current one.
 
-### Publishing the Weekly Bible Study
+### Publishing the Living Word
 
-This is the study message you write and post each week. It is read on the
-website — it is not a meeting.
+The message you write and post each week for the church to read. It lives on
+the website — it is not a meeting.
 
-1. Click **Weekly Bible Study** in the sidebar
+1. Click **Living Word** in the sidebar
 2. Click **+** for a new one
 3. Enter the title, then click **Generate** next to Web address
 4. Set **Publish on**. Today's date is filled in for you. **Date it in the
@@ -131,18 +131,17 @@ website — it is not a meeting.
 5. Add the Bible passage — it appears as a badge under the title
 6. Write a short summary. This shows in larger type above the message, and is
    what people see when the link is shared in WhatsApp.
-7. Write the study in **The message**:
+7. Write it in **The message**:
    - **Normal** for ordinary paragraphs
    - **Heading** for section titles
    - **Quote** for scripture you want set apart
    - **Bold** and *Italic* from the toolbar, plus bullet and numbered lists
-8. Optionally attach study notes as a PDF
+8. Optionally attach notes as a PDF for people to download
 9. Click **Publish**
 
-**Each study gets its own web address** — `eslwchurch.com/bible-study/...` —
-so a single week's message can be shared on its own rather than only appearing
-at the top of the page. Older studies move into "Previous studies" by
-themselves.
+**Each week gets its own web address** — `eslwchurch.com/living-word/...` — so
+a single message can be shared on its own rather than only appearing at the top
+of the page. Older messages move into "Previous weeks" by themselves.
 
 ### Adding an event or program
 
@@ -171,8 +170,8 @@ publish. If you do not see a change, wait a minute and refresh.
 **You cannot break the site.** Every previous version is kept. If something
 goes wrong, any earlier version can be restored in seconds.
 
-**Old content looks after itself.** Past events, expired notices and finished
-Bible studies move out of the way without anyone deleting them.
+**Old content looks after itself.** Past events, expired notices and earlier
+Living Word messages move out of the way without anyone deleting them.
 
 **The website stays correct on its own.** It rebuilds itself once a night, so
 "next service" and the weekly dates stay right even in a week nobody touches it.

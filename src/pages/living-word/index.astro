@@ -14,15 +14,15 @@ const archive = await getMessageArchive();
 
 const bodyHtml = renderMessageBody(latest?.body);
 const description = latest
-  ? messageExcerpt(latest.body) || `${latest.title} — this week's Bible study message from ${latest.author ?? site.pastor.name}.`
-  : 'A weekly Bible study message from Pastor Daniel at El Shaddai Living Waters Church, Whalan — growing together in the Word of God.';
+  ? messageExcerpt(latest.body) || `${latest.title} — this week's message from ${latest.author ?? site.pastor.name}.`
+  : 'A weekly message from Pastor Daniel at El Shaddai Living Waters Church, Whalan — the Word of God for your week.';
 ---
 
-<BaseLayout title="Weekly Bible Study" description={description}>
+<BaseLayout title="Living Word" description={description}>
   <PageHero
-    eyebrow="Weekly Bible Study"
-    title="Growing together in the Word"
-    lede={`A Bible study message published each week by ${site.pastor.name} — to read, reflect on, and carry through the week.`}
+    eyebrow="Living Word"
+    title="A word for this week"
+    lede={`A message published each week by ${site.pastor.name} — to read, reflect on, and carry with you through the week.`}
   />
 
   <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
@@ -79,13 +79,13 @@ const description = latest
           <aside class="lg:sticky lg:top-24 lg:self-start">
             <div class="rounded-xl border border-gold-500/30 bg-surface p-6 shadow-sm">
               <h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-gold-600">
-                Previous studies
+                Previous weeks
               </h2>
               <ul class="mt-4 space-y-4">
                 {archive.map((m) => (
                   <li class="border-t border-gold-500/20 pt-4 first:border-0 first:pt-0">
                     <a
-                      href={`/bible-study/${m.slug}`}
+                      href={`/living-word/${m.slug}`}
                       class="group block no-underline"
                     >
                       <p class="font-medium text-blue-900 group-hover:underline underline-offset-4">
@@ -106,12 +106,12 @@ const description = latest
     ) : (
       <div class="rounded-xl border border-dashed border-gold-500/45 bg-surface p-10 text-center">
         <p class="font-[family-name:var(--font-display)] text-xl text-blue-900">
-          This week&rsquo;s study will be published shortly
+          This week&rsquo;s word will be published shortly
         </p>
         <p class="prose-measure mx-auto mt-3 leading-relaxed text-ink-muted">
-          Each week {site.pastor.name} posts a Bible study message here — a
-          passage to read, and teaching to reflect on through the week. Do come
-          back, or join us on a Sunday to hear the Word preached.
+          Each week {site.pastor.name} posts a message here — a passage to read
+          and teaching to reflect on through the week. Do come back, or join us
+          on a Sunday to hear the Word preached.
         </p>
       </div>
     )}
@@ -122,16 +122,16 @@ const description = latest
   <section class="bg-blue-900 text-white">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
       <SectionHeading
-        eyebrow="Why We Study"
+        eyebrow="Why We Do This"
         title="From spiritual infancy into maturity"
         tone="dark"
       />
       <div class="prose-measure mt-8">
         <p class="text-lg leading-relaxed text-white/90">
           One of the six pillars of our mission is discipleship — helping
-          believers grow from spiritual infancy into maturity. These weekly
-          studies exist so that the Word is not only heard on Sunday, but
-          carried into the week and read for yourself.
+          believers grow from spiritual infancy into maturity. The Living Word
+          exists so that Scripture is not only heard on Sunday, but carried into
+          the week and read for yourself.
         </p>
         <Scripture reference="Matthew 28:19–20" tone="dark">
           Go and make disciples of all nations … teaching them to obey

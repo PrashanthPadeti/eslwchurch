@@ -7,9 +7,9 @@ import { renderMessageBody, messageExcerpt } from '../../lib/portabletext';
 import { formatDate } from '../../lib/datetime';
 
 /**
- * One page per weekly message, so a single study can be shared on its own —
+ * One page per weekly message, so a single week can be shared on its own —
  * in a WhatsApp group, a bulletin, or a link from the pulpit — rather than
- * only ever being the thing currently at the top of /bible-study.
+ * only ever being the thing currently at the top of /living-word.
  */
 export async function getStaticPaths() {
   const messages = await getMessages();
@@ -34,12 +34,12 @@ const bodyHtml = renderMessageBody(message.body);
 const description =
   messageExcerpt(message.body) ||
   message.summary ||
-  `${message.title} — a Bible study message from ${message.author ?? site.pastor.name}.`;
+  `${message.title} — a message from ${message.author ?? site.pastor.name}.`;
 ---
 
 <BaseLayout title={message.title} description={description}>
   <PageHero
-    eyebrow={message.series ?? 'Weekly Bible Study'}
+    eyebrow={message.series ?? 'Living Word'}
     title={message.title}
   />
 
@@ -81,22 +81,22 @@ const description =
 
     <nav class="mt-14 grid gap-4 border-t border-gold-500/30 pt-8 sm:grid-cols-2" aria-label="Other studies">
       {older ? (
-        <a href={`/bible-study/${older.slug}`} class="group rounded-xl border border-gold-500/30 bg-surface p-5 no-underline">
-          <span class="text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Previous study</span>
+        <a href={`/living-word/${older.slug}`} class="group rounded-xl border border-gold-500/30 bg-surface p-5 no-underline">
+          <span class="text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Previous week</span>
           <span class="mt-1.5 block font-medium text-blue-900 group-hover:underline underline-offset-4">{older.title}</span>
         </a>
       ) : <div></div>}
       {newer ? (
-        <a href={`/bible-study/${newer.slug}`} class="group rounded-xl border border-gold-500/30 bg-surface p-5 text-right no-underline sm:text-right">
-          <span class="text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Next study</span>
+        <a href={`/living-word/${newer.slug}`} class="group rounded-xl border border-gold-500/30 bg-surface p-5 text-right no-underline sm:text-right">
+          <span class="text-xs font-semibold uppercase tracking-[0.16em] text-gold-600">Next week</span>
           <span class="mt-1.5 block font-medium text-blue-900 group-hover:underline underline-offset-4">{newer.title}</span>
         </a>
       ) : <div></div>}
     </nav>
 
     <p class="mt-10">
-      <a href="/bible-study" class="font-semibold text-blue-700 underline underline-offset-4">
-        ← All Bible study messages
+      <a href="/living-word" class="font-semibold text-blue-700 underline underline-offset-4">
+        ← All Living Word messages
       </a>
     </p>
   </section>
